@@ -1,13 +1,68 @@
 @import "tailwindcss";
 
+@theme {
+  --color-my-primary: #1ba94c;
+  --brand-rgb: 27, 169, 76;
+  --brand-hover: #22d560;
+  --brand-dark: #147d38;
+  --brand-disabled: #ccf7db;
+  --brand-box-shadow: rgba(27, 169, 76, 0.5);
+  --brand-box-shadow-hover: rgba(27, 169, 76, 0.4);
+  --primary-color: #1ba94c;
+  --primary-rgb: 27, 169, 76;
+  --primary-hover: #22d560;
+  --primary-dark: #147d38;
+  --primary-disabled: #ccf7db;
+  --primary-box-shadow: rgba(27, 169, 76, 0.5);
+  --primary-box-shadow-hover: rgba(27, 169, 76, 0.4);
+  --secondary-color: #097bbf;
+  --secondary-rgb: 9, 123, 191;
+  --secondary-hover: #0b9af0;
+  --secondary-dark: #075c8e;
+  --secondary-disabled: #caeafd;
+  --secondary-box-shadow: rgba(9, 123, 191, 0.5);
+  --secondary-box-shadow-hover: rgba(9, 123, 191, 0.4);
+  --error-color: #a93c32;
+  --error-rgb: 169, 60, 50;
+  --error-hover: #c85146;
+  --error-dark: #822e26;
+  --error-disabled: #f7e5e3;
+  --error-box-shadow: rgba(169, 60, 50, 0.5);
+  --error-box-shadow-hover: rgba(169, 60, 50, 0.4);
+  --success-color: #22a97a;
+  --success-rgb: 34, 169, 122;
+  --success-hover: #2bd399;
+  --success-dark: #197f5b;
+  --success-disabled: #d4f6ea;
+  --success-box-shadow: rgba(34, 169, 122, 0.5);
+  --success-box-shadow-hover: rgba(34, 169, 122, 0.4);
+  --disabled-color: #6ea989;
+  --app-background: linear-gradient(to bottom, #fff 0%, #f3f7f7 100%);
+  --font-family-sans-serif: "Open Sans", sans-serif;
+  --heading-color: #3a424e;
+  --link-color: #5fa6ff;
+  --link-color-hover: #447dbd;
+  --disabled-text-color: #b7c9cc;
+  --toolbar-background-color: #39424e;
+  --toolbar-box-shadow-color: rgba(115, 143, 147, 0.3);
+  --toolbar-border-color: #28313d;
+  --card-shadow-color: rgba(99, 118, 129, 0.3);
+  --card-hover-shadow-color: rgba(99, 118, 129, 0.5);
+  --card-margin-gutter: 0px;
+}
+
+button {
+  @apply p-1 px-4 bg-my-primary text-white;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: #242424;
+  background-color: rgba(245, 242, 242, 0.85);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
