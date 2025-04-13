@@ -5,6 +5,7 @@ type ACTION_TYPE = {
   };
 
   export interface PatientRecord {
+    id: string
     date: string;
     diagnosis: string;
     weight: number;

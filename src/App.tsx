@@ -1,7 +1,5 @@
-import React, { useReducer } from "react";
 import Search from "./components/Search";
 import Records from "./components/Records";
-import { medical_records } from "./utilities";
 import { usePatient } from "./hooks/usePatient";
 
 const title = "Patient Medical Records";
@@ -22,7 +20,7 @@ const App = () => {
           selectedPatientId={patientId}
         />
         {data.length > 0 && (
-          <Records data={data} setNextRecord={setNextRecord} />
+          <Records data={data as any} setNextRecord={setNextRecord} />
         )}
       </div>
     </div>
