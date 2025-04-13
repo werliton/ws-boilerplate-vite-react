@@ -1,4 +1,4 @@
-import { initialState, patientReducer } from "@/reducers/patientReducer";
+import { initialState, Patient, patientReducer } from "@/reducers/patientReducer";
 import { medical_records } from "@/utilities";
 import { useReducer } from "react";
 
@@ -8,10 +8,7 @@ export const usePatient = () => {
     const { patientId, data } = state;
   
     const handlePatient = (value: string) => {
-      dispatch({
-        type: "SET_PATIENT",
-        payload: value,
-      });
+        Patient.setPatient(dispatch, value)
     };
   
     const setRecord = () => {
@@ -22,30 +19,15 @@ export const usePatient = () => {
         );
   
         if (foundPatient?.id) {
-          dispatch({
-            type: "SET_DATA",
-            payload: foundPatient.data as any,
-          });
+            Patient.setData(dispatch, foundPatient.data as any,)
+          
         }
       }
     };
   
     const setNextRecord = () => {
       // encontrar pelo index e definir o proximo index
-      const currentIndex = medical_records.findIndex(
-        (item) => item.id === patientId
-      );
-      const nextIndex = (currentIndex + 1) % medical_records.length;
-      const nextPatient = medical_records[nextIndex];
-  
-      dispatch({
-        type: "SET_PATIENT",
-        payload: nextPatient.id,
-      });
-      dispatch({
-        type: "SET_DATA",
-        payload: nextPatient.data as any,
-      });
+      Patient.setNextPatient(dispatch, medical_records as any)
     };
 
     return {
