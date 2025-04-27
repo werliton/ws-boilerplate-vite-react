@@ -1,6 +1,5 @@
-// Design Patterns: Singleton
-
 import React from "react";
+// Design Patterns: Singleton
 
 // https://deviq.com/design-patterns/singleton
 export const Header = React.memo(() => {
