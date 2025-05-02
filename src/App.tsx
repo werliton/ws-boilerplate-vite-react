@@ -19,6 +19,13 @@ const App = () => {
         {data.length > 0 && (
           <Records data={data as any} setNextRecord={setNextRecord} />
         )}
+        <button
+          onClick={() => {
+            throw new Error("This is your first error!");
+          }}
+        >
+          Break the world
+        </button>
       </div>
     </div>
   );
