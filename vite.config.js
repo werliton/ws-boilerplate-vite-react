@@ -8,17 +8,10 @@ import { visualizer } from 'rollup-plugin-visualizer'
 export default defineConfig({
   plugins: [react(), tailwindcss(),
     visualizer({
-      filename: './dist/bundle-report.html',
-      template: 'flamegraph',
-      gzipSize: true,
-      brotliSize: true,
-    }),
-    visualizer({
-      filename: './dist/bundle-dependences-report.html',
-      template: 'network',
-      gzipSize: true,
-      brotliSize: true,
-    }),
+      filename: './dist/bundle-report.json',
+      template: 'list',
+      gzipSize: true
+    })
   ],
   resolve: {
     alias: {

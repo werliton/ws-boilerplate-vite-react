@@ -48,6 +48,26 @@ jobs:
           script: |
             const body = `
               ### 📦 Bundle Report generated
+              const report = JSON.parse(fs.readFileSync('bundle-report.json', 'utf8'));
+              // Filtra os arquivos que têm '/src/' no caminho
+              const srcFiles = Object.keys(report).filter(file => file.includes('/src/'));
+
+              // Inicializa variáveis para armazenar os tamanhos totais
+              let totalRendered = 0;
+              let totalGzip = 0;
+
+              // Soma os valores de 'rendered' e 'gzip' dos arquivos filtrados
+              srcFiles.forEach(file => {
+                totalRendered += report[file].rendered;
+                totalGzip += report[file].gzip;
+              });
+
+              // Converte para KB
+              const renderedKB = (totalRendered / 1024).toFixed(2);
+              const gzipKB = (totalGzip / 1024).toFixed(2);
+
+              - **Rendered size**: \`${rendered}\`
+              - **Gzip size**: \`${gzipKB} KB\`
 
               _Gerado automaticamente por GitHub Actions._
             `;
