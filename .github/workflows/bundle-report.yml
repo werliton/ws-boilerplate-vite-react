@@ -46,38 +46,37 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync('dist/bundle-report.json', 'utf8'));
+
+            let gzip = 0;
+            let rendered = 0;
+            let isBlock = false;
+            let qtdInBlock = 0;
+
+            for await (const line of file){
+                
+                if(line.includes('/src')){
+                    qtdInBlock = 2;
+                    isBlock = true;
+                    continue;
+                }
+
+                if(isBlock && qtdInBlock > 0){
+                    if(line.includes('gzip')){
+                        gzip += +line.split(':')[1].trim();
+                        qtdInBlock--;
+                    }else if (line.includes('rendered')){
+                        rendered += +line.split(':')[1].trim();
+                        qtdInBlock--;
+                    }
+
+                    if (qtdInBlock === 0) {
+                        isBlock = false;
+                    }
+                }
+            }
             const body = `
-              ### 📦 Bundle Report generated
-              const report = JSON.parse(fs.readFileSync('dist/bundle-report.json', 'utf8'));
-              // Filtra os arquivos que têm '/src/' no caminho
-              let gzip = 0
-              let rendered = 0
-              let isBlock = false
-              let qtdInBlock = 0
-
-              for await (const line of file){
-                  
-                  if(line.includes('/src')){
-                      qtdInBlock = 2
-                      isBlock = true
-                      continue    
-                  }
-
-                  if(isBlock && qtdInBlock > 0){
-                      if(line.includes('gzip')){
-                          gzip += +line.split(':')[1].trim()
-                          qtdInBlock--
-                      }else if (line.includes('rendered')){
-                          rendered += +line.split(':')[1].trim()
-                          qtdInBlock--
-                      }
-
-                      if (qtdInBlock === 0) {
-                          isBlock = false
-                      }
-                  }
-              }
-
               - **Rendered size**: \`${rendered}\`
               - **Gzip size**: \`${gzip} KB\`
 
