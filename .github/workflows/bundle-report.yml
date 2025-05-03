@@ -50,24 +50,36 @@ jobs:
               ### 📦 Bundle Report generated
               const report = JSON.parse(fs.readFileSync('dist/bundle-report.json', 'utf8'));
               // Filtra os arquivos que têm '/src/' no caminho
-              const srcFiles = Object.keys(report).filter(file => file.includes('/src/'));
+              let gzip = 0
+              let rendered = 0
+              let isBlock = false
+              let qtdInBlock = 0
 
-              // Inicializa variáveis para armazenar os tamanhos totais
-              let totalRendered = 0;
-              let totalGzip = 0;
+              for await (const line of file){
+                  
+                  if(line.includes('/src')){
+                      qtdInBlock = 2
+                      isBlock = true
+                      continue    
+                  }
 
-              // Soma os valores de 'rendered' e 'gzip' dos arquivos filtrados
-              srcFiles.forEach(file => {
-                totalRendered += report[file].rendered;
-                totalGzip += report[file].gzip;
-              });
+                  if(isBlock && qtdInBlock > 0){
+                      if(line.includes('gzip')){
+                          gzip += +line.split(':')[1].trim()
+                          qtdInBlock--
+                      }else if (line.includes('rendered')){
+                          rendered += +line.split(':')[1].trim()
+                          qtdInBlock--
+                      }
 
-              // Converte para KB
-              const renderedKB = (totalRendered / 1024).toFixed(2);
-              const gzipKB = (totalGzip / 1024).toFixed(2);
+                      if (qtdInBlock === 0) {
+                          isBlock = false
+                      }
+                  }
+              }
 
               - **Rendered size**: \`${rendered}\`
-              - **Gzip size**: \`${gzipKB} KB\`
+              - **Gzip size**: \`${gzip} KB\`
 
               _Gerado automaticamente por GitHub Actions._
             `;
