@@ -4,11 +4,13 @@ export default {
             url: ['http://localhost:4173/'],
             startServerCommand: 'pnpm run preview',
             startServerReadyPattern: 'Local:',
+            settings: {skipAudits: ['canonical', 'uses-http2', 'uses-long-cache-ttl']}
         },
         upload: {
             target: 'temporary-public-storage',
         },
         assert: {
+            preset: 'lighthouse:recommended',
             assertions: {
               'meta-description': 'off',
               'select-name': 'off',

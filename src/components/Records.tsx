@@ -1,5 +1,3 @@
-import { medical_records } from "@/utilities";
-
 interface RecordsProps {
   data: Array<{
     id: number;

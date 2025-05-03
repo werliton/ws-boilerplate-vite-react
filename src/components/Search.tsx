@@ -16,7 +16,9 @@ function Search({ setRecord, setId, selectedPatientId }: SearchProps) {
   return (
     <div className="flex w-[1024px] py-8">
       <div className="flex w-full gap-2 p-2 bg-gray-100">
+        <label htmlFor="name">
         <select
+        id="name"
           data-testid="patient-name"
           value={selectedPatientId}
           className="flex  w-full p-2"
@@ -31,6 +33,7 @@ function Search({ setRecord, setId, selectedPatientId }: SearchProps) {
             </option>
           ))}
         </select>
+        </label>
       </div>
 
       <button
