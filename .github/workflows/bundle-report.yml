@@ -1,0 +1,60 @@
+name: Analyze Bundle Size
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  analyze-bundle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # importante para comparar entre branches
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build with sourcemaps
+        run: npm run build
+
+      - name: Run source-map-explorer
+        run: npx source-map-explorer "dist/assets/*.js" --json > bundle-report.json
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: bundle-report
+          path: bundle-report.json
+
+      - name: Comment PR with bundle size
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync('bundle-report.json', 'utf8'));
+            const keys = Object.keys(report);
+            const sizeKB = (report[keys[0]].parsedSize / 1024).toFixed(2);
+            const gzipKB = (report[keys[0]].gzipSize / 1024).toFixed(2);
+
+            const body = `
+              ### 📦 Bundle Report
+              - **Parsed size**: \`${sizeKB} KB\`
+              - **Gzip size**: \`${gzipKB} KB\`
+
+              _Gerado automaticamente por GitHub Actions._
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
