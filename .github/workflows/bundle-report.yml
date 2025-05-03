@@ -20,10 +20,10 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm ci
 
       - name: Build with sourcemaps
-        run: npm run build
+        run: pnpm run build
 
       - name: Run source-map-explorer
         run: npx source-map-explorer "dist/assets/*.js" --json > bundle-report.json
