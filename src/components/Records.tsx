@@ -35,7 +35,7 @@ function Records({ data, setNextRecord }: RecordsProps) {
           <h5 id="patient-height">Height: {data[0].meta.height} cm</h5>
         </div>
         <button
-          className="absolute right-2 top-3"
+          className="absolute right-2 top-3 p-1 px-4  bg-secondary"
           onClick={setNextRecord}
           data-testid="next-btn"
         >

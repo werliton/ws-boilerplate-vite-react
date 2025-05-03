@@ -33,7 +33,12 @@ function Search({ setRecord, setId, selectedPatientId }: SearchProps) {
         </select>
       </div>
 
-      <button type="button" data-testid="show" onClick={setRecord}>
+      <button
+        type="button"
+        data-testid="show"
+        className="bg-secondary-dark p-1 px-4 "
+        onClick={setRecord}
+      >
         Show
       </button>
     </div>

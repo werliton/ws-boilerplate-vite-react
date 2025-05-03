@@ -3,7 +3,7 @@ import Search from "./components/Search";
 import Records from "./components/Records";
 import { medical_records } from "./utilities";
 
-const title = "Patient Medical Records";
+const title = "Patient Medical Records by HackerRank";
 
 const App = () => {
   const [selectedPatient, setSelectedPatient] = React.useState("");
@@ -40,7 +40,7 @@ const App = () => {
 
   return (
     <div className="bg-white h-screen flex flex-col">
-      <nav className="h-14 bg-black text-green-500 flex items-center p-2 font-black">
+      <nav className="h-14 bg-black text-white flex items-center p-2 font-black">
         {title}
       </nav>
       <div className="flex flex-col items-center w-full">
