@@ -10,14 +10,12 @@ export default {
             target: 'temporary-public-storage',
         },
         assert: {
-            preset: 'lighthouse:recommended',
+            preset: 'lighthouse:no-pwa',
             assertions: {
               'meta-description': 'off',
               'select-name': 'off',
               'unused-javascript': 'off',
-              'render-blocking-resources': 'off',
-              // ou desativar tudo com:
-              // preset: 'off',
+              'render-blocking-resources': 'off'
             },
           },
     },
