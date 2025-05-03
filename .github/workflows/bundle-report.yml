@@ -47,7 +47,7 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const report = JSON.parse(fs.readFileSync('dist/bundle-report.json', 'utf8')).split('\n');
+            const file = JSON.parse(fs.readFileSync('dist/bundle-report.json', 'utf8')).split('\n');
 
             let gzip = 0;
             let rendered = 0;
