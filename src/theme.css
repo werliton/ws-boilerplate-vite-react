@@ -1,0 +1,32 @@
+@theme {
+    --color-brand-hover: #22d560;
+    --color-brand-dark: #147d38;
+    --color-brand-disabled: #ccf7db;
+    --color-brand-box-shadow: rgba(27, 169, 76, 0.5);
+    --color-brand-box-shadow-hover: rgba(27, 169, 76, 0.4);
+    --color-primary: #1ba94c;
+    --color-primary-rgb: 27, 169, 76;
+    --color-primary-hover: #22d560;
+    --color-primary-dark: #147d38;
+    --color-primary-disabled: #ccf7db;
+  
+    --color-secondary: #097bbf;
+    --color-secondary-rgb: 9, 123, 191;
+    --color-secondary-hover: #0b9af0;
+    --color-secondary-dark: #075c8e;
+    --color-secondary-disabled: #caeafd;
+    --color-secondary-box-shadow: rgba(9, 123, 191, 0.5);
+    --color-secondary-box-shadow-hover: rgba(9, 123, 191, 0.4);
+  
+    --color-error: #a93c32;
+    --color-error-rgb: 169, 60, 50;
+    --color-error-hover: #c85146;
+    --color-error-dark: #822e26;
+    --color-error-disabled: #f7e5e3;
+    --color-error-box-shadow: rgba(169, 60, 50, 0.5);
+    --color-error-box-shadow-hover: rgba(169, 60, 50, 0.4);
+  
+    --color-success: #22a97a;
+    --color-success-rgb: 34, 169, 122;
+    --color-success-hover: #2bd399;
+  }
