@@ -31,6 +31,19 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Cache Playwright Browsers
+        id: cache-playwright
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright # Caminho onde os navegadores do Playwright são armazenados
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/pnpm-lock.yaml') }} # Garante que o cache será reutilizado com base nas dependências
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+
+      - name: Install Playwright Browsers (only if needed)
+        run: pnpm exec playwright install --with-deps
+        if: steps.cache-playwright.outputs.cache-hit != 'true'
+
       - name: Build app
         run: pnpm run build
 
@@ -41,11 +54,8 @@ jobs:
         run: |
           npx wait-on http://localhost:4173
 
-      - name: Install Playwright Browsers
-        run: pnpm exec playwright install --with-deps
-
       - name: Run Playwright tests
-        run: pnpm exec playwright test
+        run: pnpm exec playwright test --reporter=github
         env:
           BASE_URL: "http://localhost:4173"
 
