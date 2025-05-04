@@ -40,7 +40,10 @@ const App = () => {
 
   return (
     <div className="bg-white h-screen flex flex-col">
-      <nav className="h-14 bg-black text-white flex items-center p-2 font-black">
+      <nav
+        className="h-14 bg-black text-white flex items-center p-2 font-black"
+        data-testid="header"
+      >
         {title}
       </nav>
       <div className="flex flex-col items-center w-full">
