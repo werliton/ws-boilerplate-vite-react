@@ -1,0 +1,1 @@
+export { medical_records } from './data'

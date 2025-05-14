@@ -1,0 +1,121 @@
+name: Analyze Bundle Size and Lighthouse
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  analyze-bundle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # importante para comparar entre branches
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 10
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build with sourcemaps
+        run: pnpm run build
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-report
+          path: dist/bundle-report.json
+
+      - name: Comment PR with bundle size
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const file = fs.readFileSync('dist/bundle-report.json', 'utf8').split('\n');
+
+            let gzip = 0;
+            let rendered = 0;
+            let isBlock = false;
+            let qtdInBlock = 0;
+
+            for (const line of file){
+                
+                if(line.includes('/src')){
+                    qtdInBlock = 2;
+                    isBlock = true;
+                    continue;
+                }
+
+                if(isBlock && qtdInBlock > 0){
+                    if(line.includes('gzip')){
+                        gzip += +line.split(':')[1].trim();
+                        qtdInBlock--;
+                    }else if (line.includes('rendered')){
+                        rendered += +line.split(':')[1].trim();
+                        qtdInBlock--;
+                    }
+
+                    if (qtdInBlock === 0) {
+                        isBlock = false;
+                    }
+                }
+            }
+            const body = `
+              - **Rendered size**: \`${rendered}\`
+              - **Gzip size**: \`${gzip} KB\`
+
+              _Gerado automaticamente por GitHub Actions._
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+  lhci:
+    name: Lighthouse
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install dependencies and build
+        run: |
+          pnpm install
+          pnpm run build
+
+      - name: run Lighthouse CI
+        run: |
+          pnpm install -g @lhci/cli@0.14.x
+          lhci autorun
